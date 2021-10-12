@@ -3,6 +3,10 @@ import { GoogleSpreadsheet } from 'google-spreadsheet'
 //criação de uma instância do GoogleSpreadsheet
 const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID)
 
+const fromBase64 = value => {
+  const buff = Buffer.from(value, 'base64')
+  return buff.toString('ascii')
+}
 
 export default async (req, res) => {
 
@@ -10,7 +14,7 @@ export default async (req, res) => {
     //await doc.useServiceAccountAuth(credentials)    //como temos a planilha 'doc', vamos autenticar com os dados do crendentials que possui a conta de serviço criada no google 
     await doc.useServiceAccountAuth({
       client_email: process.env.SHEET_CLIENT_EMAIL,
-      private_key: process.env.SHEET_PRIVATE_KEY
+      private_key: fromBase64(process.env.SHEET_PRIVATE_KEY)
     })
     await doc.loadInfo()                            // aqui pedimos para carragar as informações da planilha
 
