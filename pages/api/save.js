@@ -1,5 +1,7 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet'
 import moment from 'moment'
+import { fromBase64 } from '../../utils/base64'
+
 
 //criação de uma instância do GoogleSpreadsheet
 const doc = new GoogleSpreadsheet(process.env.SHEET_DOC_ID)
@@ -10,10 +12,7 @@ const genCupom = () => {
   return code.substr(0, 4) + '-' + code.substr(4, 4) + '-' + code.substr(8, 4)
 }
 
-const fromBase64 = value => {
-  const buff = Buffer.from(value, 'base64')
-  return buff.toString('ascii')
-}
+
 
 export default async (req, res) => {
 
